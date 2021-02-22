@@ -1,0 +1,44 @@
+:root {
+    --main-bg: #fef3e4;
+    --primary-color: rgb(41, 192, 212);
+
+    --glow-effect: 0 0 40px 20px rgb(207, 207, 207);
+}
+
+/*
+ * General styles
+*/
+
+.body-bg {
+    background-color: var(--main-bg);
+}
+
+.main-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/*
+ * Layout components
+*/
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/*
+ * Prototype
+*/
+
+.mock-frame {
+    height: 647.7px;
+    width: 325px;
+    background-color: rgb(221, 221, 221);
+    border-radius: 40px;
+    box-shadow: 0px 0px 15px rgb(0 0 0 / 10%);
+    overflow: hidden;
+}
+
+
