@@ -1,0 +1,21 @@
+.paging {
+    width: 100%;
+    display: flex;
+    place-content: center;
+}
+
+.paging__step {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    margin: 0 3px;
+    opacity: .3;
+    transition: width .3s ease-out;
+}
+
+.paging__step--active {
+    width: 30px;
+    opacity: 1;
+    border-radius: 5px;
+}

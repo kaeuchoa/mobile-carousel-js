@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/tutorial-carousel.css">
+    <link rel="stylesheet" href="css/paging.css">
     <!-- https://dribbble.com/shots/15165643-Task-manager-Mobile-App -->
 </head>
 <body class="body-bg">
@@ -24,10 +25,19 @@
         <section class="carousel">
             <div class="carousel__img"></div>
             <div class="carousel__content">
-                <div class="carousel__paging"></div>
-                <h1 class="carousel__title">Sample Title</h1>
-                <p class="carousel__text"> Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
-                <button class="carousel__btn carousel__btn--primary carousel__btn--right"><i class="fas fa-arrow-right"></i></button>
+                <div class="paging">
+                    <span class="paging__step"></span>
+                    <span class="paging__step"></span>
+                    <span class="paging__step"></span>
+                </div>
+                <div class="carousel__slider">
+                    <h1 class="carousel__title">Sample Title</h1>
+                    <p class="carousel__text"> Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                    <div class="carousel__action-bar">
+                        <button class="carousel__btn carousel__btn--primary"><i class="fas fa-arrow-left"></i></button>
+                        <button class="carousel__btn carousel__btn--primary"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
             </div>
         </section>
     </template>
