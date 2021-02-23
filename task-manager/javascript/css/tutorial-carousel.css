@@ -28,8 +28,6 @@
     bottom: 0;
 }
 
-.carousel__paging {}
-
 .carousel__title {
     font-family: 'Roboto', sans-serif;
     font-size: 2.0rem;
@@ -47,6 +45,8 @@
 }
 
 .carousel__btn {
+    --glow-effect: 0 0 50px 15px rgba(3, 165, 209, .1);
+
     border: none;
     border-radius: 50%;
     width: 80px;
@@ -62,7 +62,3 @@
     background-color: var(--primary-color);
     color: #fff;
 }
-
-.carousel__btn--right {}
-
-.carousel__btn--left {}
