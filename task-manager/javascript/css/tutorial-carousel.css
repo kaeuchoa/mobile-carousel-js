@@ -12,11 +12,13 @@
     width: 100%;
     background: brown;
 }
+
 .carousel__slider {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .carousel__content {
     max-height: 45%;
     flex-grow: 1;
@@ -55,7 +57,7 @@
     border-radius: 50%;
     width: 45px;
     height: 45px;
-    background-image: linear-gradient(149deg, rgb(214,243,239),var(--primary-color));
+    background-image: linear-gradient(149deg, rgb(214, 243, 239), var(--primary-color));
     box-shadow: var(--glow-effect);
     margin: 25px 10px;
     font-size: 1.3rem;
