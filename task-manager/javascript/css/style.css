@@ -2,8 +2,10 @@
     --main-bg: #fef3e4;
     --primary-color: rgb(41, 192, 212);
 
-    --glow-effect: 0 0 40px 20px rgb(207, 207, 207);
+    --glow-effect: 0 0 50px 15px rgba(3, 165, 209, .1);
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
 
 /*
  * General styles
