@@ -1,11 +1,12 @@
 'use strict';
 
 import CarouselView from './CarouselView.js';
+import PagingView from '../paging/PagingView.js';
 
 class CarouselController {
 
     constructor() {
-        this.view = new CarouselView();
+        this.view = new CarouselView(new PagingView());
         this.renderedView = null;
         this.nextBtn = null;
         this.previousBtn = null;
@@ -13,7 +14,7 @@ class CarouselController {
 
     renderView() {
         if (this.view) {
-            this.renderedView = this.view.render();
+            this.renderedView = this.view.renderElement();
             if (this.renderedView) {
                 this.previousBtn = this.renderedView.querySelector(CarouselView.jsPreviousBtnSelector);
                 this.nextBtn = this.renderedView.querySelector(CarouselView.jsNextBtnSelector);
