@@ -27,7 +27,7 @@ class CarouselController {
 
     _bindNextBtnEvent() {
         if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', () => console.log('bindNextBtnEvent'));
+            this.nextBtn.addEventListener('click', this._loadNextPage);
         } else {
             throw new Error('Next button is not rendered.');
         }
@@ -35,10 +35,18 @@ class CarouselController {
 
     _bindPreviousBtnEvent() {
         if (this.previousBtn) {
-            this.previousBtn.addEventListener('click', () => console.log('bindPreviousBtnEvent'));
+            this.previousBtn.addEventListener('click', this._loadPreviousPage);
         } else {
             throw new Error('Previous button is not rendered.');
         }
+    }
+
+    _loadPreviousPage() {
+        console.log('hello previous page');
+    }
+
+    _loadNextPage() {
+        console.log('hello next page');
     }
 }
 

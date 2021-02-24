@@ -1,17 +1,18 @@
 'use strict'
 
 class CarouselView {
+
+    constructor(pagingView) {
+        this.pagingView = pagingView;
+    }
+
     render() {
         const containerElement = document.createElement('div');
         containerElement.innerHTML = `
         <section class="carousel">
             <div class="carousel__img"></div>
             <div class="carousel__content">
-                <div class="paging">
-                    <span class="paging__step"></span>
-                    <span class="paging__step"></span>
-                    <span class="paging__step"></span>
-                </div>
+                ${this.pagingView.render()}
                 <div class="carousel__slider">
                     <h1 class="carousel__title">Sample Title</h1>
                     <p class="carousel__text"> Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
@@ -25,7 +26,11 @@ class CarouselView {
         return containerElement.firstElementChild;
     }
 }
-
+{/* <div class="paging">
+                    <span class="paging__step"></span>
+                    <span class="paging__step"></span>
+                    <span class="paging__step"></span>
+                </div> */}
 CarouselView.jsPreviousBtnSelector = '.js-previous-btn';
 CarouselView.jsNextBtnSelector = '.js-next-btn';
 
