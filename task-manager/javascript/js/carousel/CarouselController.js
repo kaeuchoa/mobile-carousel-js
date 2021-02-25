@@ -5,9 +5,12 @@ import PagingView from '../paging/PagingView.js';
 import CPModel from './CarouselPageModel.js';
 
 class CarouselController {
-
     constructor() {
-        const arr = [new CPModel("title1", "text"), new CPModel("title2", "text2"), new CPModel("title3", "text3")];
+        const arr = [
+            new CPModel("Lorem Ipsum", "Lorem ipsum dolor, sit amet consectetur adipisicing elit."), 
+            new CPModel("Nulla lorem eros", "Nulla lorem eros, facilisis ac."), 
+            new CPModel("Integer", "Integer non mauris a elit.")
+        ];
         this.view = new CarouselView(new PagingView(), arr);
         this.renderedView = null;
         this.nextBtn = null;
