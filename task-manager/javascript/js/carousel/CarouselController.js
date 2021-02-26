@@ -1,12 +1,11 @@
 'use strict';
 
 import CarouselView from './CarouselView.js';
-import PagingView from '../paging/PagingView.js';
-
 
 class CarouselController {
-    constructor(pageList) {
-        this.view = new CarouselView(new PagingView(pageList.length), pageList);
+    constructor(pageList, pagingController) {
+        this.pagingController = pagingController;
+        this.view = new CarouselView(this.pagingController.renderView(), pageList);
         this.renderedView = null;
         this.nextBtn = null;
         this.previousBtn = null;

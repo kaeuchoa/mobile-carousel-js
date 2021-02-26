@@ -2,8 +2,8 @@
 
 class CarouselView {
 
-    constructor(pagingView, carouselPageModelList) {
-        this.pagingView = pagingView;
+    constructor(renderedPaging, carouselPageModelList) {
+        this.renderedPaging = renderedPaging;
         this.pageList = carouselPageModelList;
     }
 
@@ -13,7 +13,7 @@ class CarouselView {
         <section class="carousel">
             <div class="carousel__img"></div>
             <div class="carousel__content">
-                ${this.pagingView.renderToString()}
+                ${this.renderedPaging}
                 <ul class="carousel__slider js-page-list">
                     ${this._renderCarouselItems()}
                 </ul>

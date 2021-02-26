@@ -1,6 +1,7 @@
 'use strict'
 import CarouselController from './carousel/CarouselController.js';
 import CPModel from './carousel/CarouselPageModel.js';
+import PagingController from './paging/PagingController.js';
 
 class App {
     constructor() {
@@ -10,8 +11,11 @@ class App {
             new CPModel("Nulla lorem eros", "Nulla lorem eros, facilisis ac."), 
             new CPModel("Integer", "Integer non mauris a elit."),
         ];
-        this.carouselController = new CarouselController(this.pageList);
-        this.carouselController.subscribe(this.updateCurrentCarouselState.bind(this));
+        this.pagingController = new PagingController(this.pageList);
+        this.carouselController = new CarouselController(this.pageList, this.pagingController);
+
+        this.carouselController.subscribe((data) => this.updateCurrentCarouselState(data));
+        this.carouselController.subscribe((data) => this.pagingController.updatePaging(data));
 
         // simple state just for the sake of having one global state
         window.state = {
