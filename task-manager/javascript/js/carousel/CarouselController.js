@@ -2,24 +2,28 @@
 
 import CarouselView from './CarouselView.js';
 import PagingView from '../paging/PagingView.js';
-import CPModel from './CarouselPageModel.js';
+
 
 class CarouselController {
-    constructor() {
-        const arr = [
-            new CPModel("Lorem Ipsum", "Lorem ipsum dolor, sit amet consectetur adipisicing elit."), 
-            new CPModel("Nulla lorem eros", "Nulla lorem eros, facilisis ac."), 
-            new CPModel("Integer", "Integer non mauris a elit.")
-        ];
-        this.view = new CarouselView(new PagingView(), arr);
+    constructor(pageList) {
+        this.view = new CarouselView(new PagingView(pageList.length), pageList);
         this.renderedView = null;
         this.nextBtn = null;
         this.previousBtn = null;
-        this.pageList = null;
-        this.state = {
-            currentIndex: 0
-        }
-        this.pageCount = arr.length;
+        this.pageList = pageList;
+        this.observers = [];
+    }
+
+    subscribe(f) {
+        this.observers.push(f);
+    }
+
+    unsubscribe(f) {
+        this.observers = this.observers.filter(subscriber => subscriber !== f);
+    }
+
+    _notify(data) {
+        this.observers.forEach(observer => observer(data));
     }
 
     renderView() {
@@ -59,8 +63,8 @@ class CarouselController {
 
     _loadPreviousPage() {
         if (this.pageList) {
-            this._decreaseCurrentIndex();
-            const previousElement = this.pageList.children[this.state.currentIndex];
+            this._notify({event: CarouselController.actions.PREVIOUS_BTN});
+            const previousElement = this.pageList.children[window.state.currentCarouselScreen];
             if (previousElement) {
                 previousElement.focus();
             }
@@ -69,29 +73,17 @@ class CarouselController {
 
     _loadNextPage() {
         if (this.pageList) {
-            this._increaseCurrentIndex();
-            const nextElement = this.pageList.children[this.state.currentIndex];
+            this._notify({event: CarouselController.actions.NEXT_BTN});
+            const nextElement = this.pageList.children[window.state.currentCarouselScreen];
             if (nextElement) {
                 nextElement.focus();
             }
         }
     }
-
-    _increaseCurrentIndex() {
-        if (this.state.currentIndex < this.pageCount) {
-            const newState = {...this.state};
-            newState.currentIndex++;
-            this.state = {...newState};
-        }
-    }
-
-    _decreaseCurrentIndex() {
-        if (this.state.currentIndex > 0) {
-            const newState = {...this.state};
-            newState.currentIndex--;
-            this.state = {...newState};
-        }
-    }
 }
 
+CarouselController.actions = {
+    NEXT_BTN: "action_next_btn",
+    PREVIOUS_BTN: "action_previous_btn"
+}
 export default CarouselController;
