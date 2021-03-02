@@ -73,6 +73,12 @@
     transform: scale(1);
     transition: transform 0.5s;
     position: relative;
+
+    outline: none;
+}
+
+.carousel__item:focus {
+    outline: none;
 }
 
 

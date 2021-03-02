@@ -9,7 +9,7 @@ class CarouselController {
         this.renderedView = null;
         this.nextBtn = null;
         this.previousBtn = null;
-        this.pageList = pageList;
+        this.pageListElement = null;
         this.observers = [];
     }
 
@@ -41,7 +41,7 @@ class CarouselController {
     _queryElements() {
         this.previousBtn = this.renderedView.querySelector(CarouselView.jsPreviousBtnSelector);
         this.nextBtn = this.renderedView.querySelector(CarouselView.jsNextBtnSelector);
-        this.pageList = this.renderedView.querySelector(CarouselView.jsPageListSelector);
+        this.pageListElement = this.renderedView.querySelector(CarouselView.jsPageListSelector);
     }
 
     _bindNextBtnEvent() {
@@ -61,9 +61,9 @@ class CarouselController {
     }
 
     _loadPreviousPage() {
-        if (this.pageList) {
+        if (this.pageListElement) {
             this._notify({event: CarouselController.actions.PREVIOUS_BTN});
-            const previousElement = this.pageList.children[window.state.currentCarouselScreen];
+            const previousElement = this.pageListElement.children[window.state.currentCarouselScreen];
             if (previousElement) {
                 previousElement.focus();
             }
@@ -71,9 +71,9 @@ class CarouselController {
     }
 
     _loadNextPage() {
-        if (this.pageList) {
+        if (this.pageListElement) {
             this._notify({event: CarouselController.actions.NEXT_BTN});
-            const nextElement = this.pageList.children[window.state.currentCarouselScreen];
+            const nextElement = this.pageListElement.children[window.state.currentCarouselScreen];
             if (nextElement) {
                 nextElement.focus();
             }

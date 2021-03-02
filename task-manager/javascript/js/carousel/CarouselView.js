@@ -13,7 +13,7 @@ class CarouselView {
         <section class="carousel">
             <div class="carousel__img"></div>
             <div class="carousel__content">
-                ${this.renderedPaging}
+                <span id="paging-placeholder"></span>
                 <ul class="carousel__slider js-page-list">
                     ${this._renderCarouselItems()}
                 </ul>
@@ -22,7 +22,8 @@ class CarouselView {
                     <button class="carousel__btn carousel__btn--primary js-next-btn"><i class="fas fa-arrow-right"></i></button>
                 </div>
             </div>
-        </section>`
+        </section>`;
+        this._appendRenderedPaging(containerElement);
         return containerElement.firstElementChild;
     }
 
@@ -35,6 +36,12 @@ class CarouselView {
             </li>
             `).join('');
         }
+    }
+
+    _appendRenderedPaging(containerElement) {
+        const placeholder = containerElement.querySelector('#paging-placeholder');
+        placeholder.appendChild(this.renderedPaging);
+        placeholder.replaceWith(placeholder.firstElementChild);
     }
 
     _getItemId(listItem){

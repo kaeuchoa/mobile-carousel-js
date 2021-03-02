@@ -1,24 +1,34 @@
 import PagingView from './PagingView.js';
 
 class PagingController {
-    constructor (pageList) {
+    constructor(pageList) {
         this.pageList = pageList;
         this.view = new PagingView(this.pageList.length);
+        this.renderedView = null;
+        this.paging = null;
+        this.pagingSteps = [];
     }
+
     renderView() {
-        return this.view.renderToString();
+        this.renderedView = this.view.renderElement();
+        if (this.renderedView) {
+            this.paging = this.renderedView.querySelector(PagingView.jsPagingSelector);
+            this.pagingSteps = Array.from(this.renderedView.querySelectorAll(PagingView.jsPagingStepSelector));
+        }
+        return this.renderedView;
     }
 
-    updatePaging(data) {
-        console.log("PagingController:updatePaging()", data);
-    }
-
-    activeNextStep() {
-        console.log("PagingController:activeNextStep()");
-    }
-
-    activePreviousStep() {
-        console.log("PagingController:activePreviousStep()");
+    updatePagingView() {
+        if (this.pagingSteps && this.pagingSteps.length > 0 && window.state) {
+            const stateIndex = window.state.currentCarouselScreen;
+            this.pagingSteps.forEach((stepElement, index) => {
+                if (index === stateIndex) {
+                    stepElement.classList.add(PagingView.pagingStepActiveClass);
+                    return;
+                }
+                stepElement.classList.remove(PagingView.pagingStepActiveClass);
+            });
+        }
     }
 }
 
