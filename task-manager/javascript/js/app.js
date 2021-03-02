@@ -11,7 +11,7 @@ class App {
         this.pageList = [
             new CPModel("Lorem Ipsum", "Lorem ipsum dolor, sit amet consectetur adipisicing elit."), 
             new CPModel("Nulla lorem eros", "Nulla lorem eros, facilisis ac."), 
-            new CPModel("Integer", "Integer non mauris a elit."),
+            new CPModel("Integer", "Integer non mauris a elit.")
         ];
         this.pagingController = new PagingController(this.pageList);
         this.carouselController = new CarouselController(this.pageList, this.pagingController);
