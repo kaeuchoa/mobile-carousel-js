@@ -41,4 +41,21 @@
     overflow: hidden;
 }
 
+/*
+ * Ripple effect
+*/
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 600ms linear;
+    background-color: var(--primary-color);
+    opacity: 0.2;
+}
 
+@keyframes ripple {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}

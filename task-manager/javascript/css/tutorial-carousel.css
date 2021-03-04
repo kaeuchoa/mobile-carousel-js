@@ -111,15 +111,12 @@
     font-size: 1.3rem;
     cursor: pointer;
     transition: transform .4s ease;
+
+    /* needed for ripple effect*/
+    position: relative;
 }
 
 .carousel__btn--primary {
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
     color: #fff;
-}
-
-.carousel__btn--unique {
-    width: 75px;
-    height: 75px;
-    font-size: 1.6rem;
 }

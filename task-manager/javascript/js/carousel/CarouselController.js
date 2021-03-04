@@ -1,6 +1,7 @@
 'use strict';
 
 import CarouselView from './CarouselView.js';
+import Misc from '../misc.js';
 
 class CarouselController {
     constructor(pageList, pagingController) {
@@ -49,6 +50,7 @@ class CarouselController {
     _bindNextBtnEvent() {
         if (this.nextBtn) {
             this.nextBtn.addEventListener('click', () => this._loadNextPage());
+            this.nextBtn.addEventListener('click', (e) => Misc.createRipple(e));
         } else {
             throw new Error('Next button is not rendered.');
         }
@@ -57,6 +59,7 @@ class CarouselController {
     _bindPreviousBtnEvent() {
         if (this.previousBtn) {
             this.previousBtn.addEventListener('click', () => this._loadPreviousPage());
+            this.previousBtn.addEventListener('click', (e) => Misc.createRipple(e));
         } else {
             throw new Error('Previous button is not rendered.');
         }
@@ -87,37 +90,36 @@ class CarouselController {
     _toggleBtns() {
         if (window.state) {
             if (window.state.currentCarouselScreen === 0) {
-                this._hidePreviousBtn();
+                this._disablePreviousBtn();
             } else if (window.state.currentCarouselScreen > 0 && window.state.currentCarouselScreen < this.pageListCount) {
-                this._showAllBtns();
+                this._enableAllBtns();
             } else if (window.state.currentCarouselScreen === this.pageListCount) {
-                this._hideNextBtn();
+                this._disableNextBtn();
             }
         }
     }
 
-    _showAllBtns() {
+    _enableAllBtns() {
         if (this.previousBtn && this.nextBtn) {
-            this.previousBtn.style.transform = 'scale(1)';
-            this.nextBtn.style.transform = 'scale(1)';
+            this.previousBtn.removeAttribute('style');
+            this.previousBtn.disabled = false;
+            this.nextBtn.removeAttribute('style');
+            this.nextBtn.disabled = false;
         }
     }
 
-    _hidePreviousBtn() {
+    _disablePreviousBtn() {
         if (this.previousBtn) {
-            this.previousBtn.style.transform = 'scale(0)';
-            this.previousBtn.style.transform = 'scale(0)';
+            this.previousBtn.style.background = "#eee";
+            this.previousBtn.disabled = true;
         }
     }
 
-    _hideNextBtn() {
+    _disableNextBtn() {
         if (this.nextBtn) {
-            this.nextBtn.style.transform = 'scale(0)';
+            this.nextBtn.style.background = "#eee";
+            this.nextBtn.disabled = true;
         }
-    }
-    // this doesn't belong here
-    _getBtnComputedStyle(button, property) {
-        return window.getComputedStyle(button).getPropertyValue(property);
     }
 }
 
