@@ -6,6 +6,7 @@ class CarouselController {
     constructor(pageList, pagingController) {
         this.pagingController = pagingController;
         this.view = new CarouselView(this.pagingController.renderView(), pageList);
+        this.pageListCount = pageList.length - 1;
         this.renderedView = null;
         this.nextBtn = null;
         this.previousBtn = null;
@@ -32,6 +33,7 @@ class CarouselController {
                 this._queryElements();
                 this._bindPreviousBtnEvent();
                 this._bindNextBtnEvent();
+                this._toggleBtns();
                 return this.renderedView;
             }
         }
@@ -62,22 +64,60 @@ class CarouselController {
 
     _loadPreviousPage() {
         if (this.pageListElement) {
-            this._notify({event: CarouselController.actions.PREVIOUS_BTN});
+            this._notify({ event: CarouselController.actions.PREVIOUS_BTN });
             const previousElement = this.pageListElement.children[window.state.currentCarouselScreen];
             if (previousElement) {
                 previousElement.focus();
             }
+            this._toggleBtns();
         }
     }
 
     _loadNextPage() {
         if (this.pageListElement) {
-            this._notify({event: CarouselController.actions.NEXT_BTN});
+            this._notify({ event: CarouselController.actions.NEXT_BTN });
             const nextElement = this.pageListElement.children[window.state.currentCarouselScreen];
             if (nextElement) {
                 nextElement.focus();
             }
+            this._toggleBtns();
         }
+    }
+
+    _toggleBtns() {
+        if (window.state) {
+            if (window.state.currentCarouselScreen === 0) {
+                this._hidePreviousBtn();
+            } else if (window.state.currentCarouselScreen > 0 && window.state.currentCarouselScreen < this.pageListCount) {
+                this._showAllBtns();
+            } else if (window.state.currentCarouselScreen === this.pageListCount) {
+                this._hideNextBtn();
+            }
+        }
+    }
+
+    _showAllBtns() {
+        if (this.previousBtn && this.nextBtn) {
+            this.previousBtn.style.transform = 'scale(1)';
+            this.nextBtn.style.transform = 'scale(1)';
+        }
+    }
+
+    _hidePreviousBtn() {
+        if (this.previousBtn) {
+            this.previousBtn.style.transform = 'scale(0)';
+            this.previousBtn.style.transform = 'scale(0)';
+        }
+    }
+
+    _hideNextBtn() {
+        if (this.nextBtn) {
+            this.nextBtn.style.transform = 'scale(0)';
+        }
+    }
+    // this doesn't belong here
+    _getBtnComputedStyle(button, property) {
+        return window.getComputedStyle(button).getPropertyValue(property);
     }
 }
 

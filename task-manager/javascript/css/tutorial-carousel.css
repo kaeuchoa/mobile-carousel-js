@@ -110,6 +110,7 @@
     margin: 25px 10px;
     font-size: 1.3rem;
     cursor: pointer;
+    transition: transform .4s ease;
 }
 
 .carousel__btn--primary {
