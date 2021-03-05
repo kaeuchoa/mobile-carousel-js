@@ -11,16 +11,20 @@ class App {
     constructor() {
         this.mainMockFrame = document.getElementById('main-mock-frame');
         this.amiiboService = new AmiiboService(new HttpService());
-        this.pageList = [
-            new CPModel("Lorem Ipsum", "Lorem ipsum dolor, sit amet consectetur adipisicing elit."), 
-            new CPModel("Nulla lorem eros", "Nulla lorem eros, facilisis ac."), 
-            new CPModel("Integer", "Integer non mauris a elit.")
-        ];
-        this.pagingController = new PagingController(this.pageList);
-        this.carouselController = new CarouselController(this.pageList, this.pagingController);
+        this.pageList = [];
+        this.amiiboService.getList().then(list => {
+            console.log('returned');
+            for (let i = 0; i < 3; i++) {
+                let item = list.amiibo[i];
+                this.pageList.push(new CPModel(item.character, item.name, item.image));
+            }
+            this.pagingController = new PagingController(this.pageList);
+            this.carouselController = new CarouselController(this.pageList, this.pagingController);
 
-        this.carouselController.subscribe(data => this._updateCurrentCarouselState(data));
-        this.carouselController.subscribe(data => this._updatePaging(data));
+            this.carouselController.subscribe(data => this._updateCurrentCarouselState(data));
+            this.carouselController.subscribe(data => this._updatePaging(data));
+        });
+
 
         // simple state just for the sake of having one global state
         window.state = {
@@ -31,7 +35,7 @@ class App {
     _updateCurrentCarouselState(eventData) {
         if (eventData) {
             // check filipe deschamps' obj method to reduce ifs/switchs
-            switch(eventData.event) {
+            switch (eventData.event) {
                 case CarouselController.actions.PREVIOUS_BTN:
                     this._decreaseCurrentCarouselScreenState();
                     break;
@@ -53,28 +57,30 @@ class App {
 
     _increaseCurrentCarouselScreenState() {
         if (window.state.currentCarouselScreen < this.pageList.length - 1) {
-            const newState = {...window.state};
+            const newState = { ...window.state };
             newState.currentCarouselScreen++;
-            window.state = {...newState};
+            window.state = { ...newState };
         }
     }
 
     _decreaseCurrentCarouselScreenState() {
         if (window.state.currentCarouselScreen > 0) {
-            const newState = {...window.state};
+            const newState = { ...window.state };
             newState.currentCarouselScreen--;
-            window.state = {...newState};
+            window.state = { ...newState };
         }
     }
 
     run() {
-        this.amiiboService.getList().then(list => console.log(list));
-        const renderedCarousel = this.carouselController.renderView();
-        if (renderedCarousel) {
-            this.mainMockFrame.appendChild(renderedCarousel);
-        } else {
-            throw new Error('The view was not rendered correctly');
-        }
+        setTimeout(() => {
+            console.log('render');
+            const renderedCarousel = this.carouselController.renderView();
+            if (renderedCarousel) {
+                this.mainMockFrame.appendChild(renderedCarousel);
+            } else {
+                throw new Error('The view was not rendered correctly');
+            }
+        }, 3000);
     }
 }
 

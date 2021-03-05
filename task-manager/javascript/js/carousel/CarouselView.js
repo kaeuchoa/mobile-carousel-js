@@ -11,7 +11,9 @@ class CarouselView {
         const containerElement = document.createElement('div');
         containerElement.innerHTML = `
         <section class="carousel">
-            <div class="carousel__img"></div>
+            <div class="carousel__img">
+                <img src=""/>
+            </div>
             <div class="carousel__content">
                 <span id="paging-placeholder"></span>
                 <ul class="carousel__slider js-page-list">
