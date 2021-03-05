@@ -115,8 +115,3 @@
     /* needed for ripple effect*/
     position: relative;
 }
-
-.carousel__btn--primary {
-    /* background-color: var(--primary-color); */
-    color: #fff;
-}
