@@ -4,7 +4,8 @@ class HttpService {
         return fetch(url, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'mode': 'no-cors'
             }
         })
         .then(this._status)

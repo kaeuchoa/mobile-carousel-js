@@ -1,12 +1,12 @@
-class SteamGamesService {
+class AmiiboService {
 
-    API_URL = 'https://www.cheapshark.com/api/1.0/games';
+    API_URL = 'https://www.amiiboapi.com/api/amiibo/';
 
     constructor(httpService) {
         this.httpService = httpService;
     }
 
-    getListOfGames() {
+    getList() {
         return new Promise((resolve, reject) => {
             this.httpService.get(this.API_URL)
                 .then(jsonResponse => {
@@ -20,4 +20,4 @@ class SteamGamesService {
 
 }
 
-export default SteamGamesService;
+export default AmiiboService;

@@ -2,12 +2,15 @@
 import CarouselController from './carousel/CarouselController.js';
 import CPModel from './carousel/CarouselPageModel.js';
 import PagingController from './paging/PagingController.js';
+import HttpService from './services/HttpService.js';
+import AmiiboService from './services/amiibo-service/AmiiboService.js';
 
 // TODO: Create a state class to make it observable, then I'm gonna update the view based on subscription on state
 
 class App {
     constructor() {
         this.mainMockFrame = document.getElementById('main-mock-frame');
+        this.amiiboService = new AmiiboService(new HttpService());
         this.pageList = [
             new CPModel("Lorem Ipsum", "Lorem ipsum dolor, sit amet consectetur adipisicing elit."), 
             new CPModel("Nulla lorem eros", "Nulla lorem eros, facilisis ac."), 
@@ -65,6 +68,7 @@ class App {
     }
 
     run() {
+        this.amiiboService.getList().then(list => console.log(list));
         const renderedCarousel = this.carouselController.renderView();
         if (renderedCarousel) {
             this.mainMockFrame.appendChild(renderedCarousel);
