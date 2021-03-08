@@ -7,12 +7,15 @@ class CarouselView {
         this.pageList = carouselPageModelList;
     }
 
-    renderElement() {
+    renderElement(pageList) {
+        if (pageList !== 'undefined') {
+            this.pageList = pageList;
+        }
         const containerElement = document.createElement('div');
         containerElement.innerHTML = `
         <section class="carousel">
             <div class="carousel__img">
-                <img src=""/>
+                <img src="" class="js-carousel-img"/>
             </div>
             <div class="carousel__content">
                 <span id="paging-placeholder"></span>
@@ -25,18 +28,20 @@ class CarouselView {
                 </div>
             </div>
         </section>`;
-        this._appendRenderedPaging(containerElement);
+        // this._appendRenderedPaging(containerElement);
         return containerElement.firstElementChild;
     }
 
     _renderCarouselItems() {
-        if (this.pageList.length) {
+        if (this.pageList && this.pageList.length) {
             return this.pageList.map((listItem) => `
             <li class="carousel__item" id="${this._getItemId(listItem)}" tabindex="-1">
                 <h1 class="carousel__title">${listItem.title}</h1>
                 <p class="carousel__text"> ${listItem.text}</p>
             </li>
             `).join('');
+        } else {
+            // todo: loading state
         }
     }
 
@@ -54,5 +59,6 @@ class CarouselView {
 CarouselView.jsPreviousBtnSelector = '.js-previous-btn';
 CarouselView.jsNextBtnSelector = '.js-next-btn';
 CarouselView.jsPageListSelector = '.js-page-list';
+CarouselView.jsCarouselImg = '.js-carousel-img';
 
 export default CarouselView;

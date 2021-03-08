@@ -12,6 +12,7 @@ class CarouselController {
         this.nextBtn = null;
         this.previousBtn = null;
         this.pageListElement = null;
+        this.carouselImage = null;
         this.observers = [];
     }
 
@@ -27,9 +28,12 @@ class CarouselController {
         this.observers.forEach(observer => observer(data));
     }
 
-    renderView() {
+    renderView(pageList) {
         if (this.view) {
-            this.renderedView = this.view.renderElement();
+            // if (pageList !== 'undefined') {
+            //     console.log(pageList);
+            // }
+            this.renderedView = this.view.renderElement(pageList);
             if (this.renderedView) {
                 this._queryElements();
                 this._bindPreviousBtnEvent();
@@ -45,6 +49,7 @@ class CarouselController {
         this.previousBtn = this.renderedView.querySelector(CarouselView.jsPreviousBtnSelector);
         this.nextBtn = this.renderedView.querySelector(CarouselView.jsNextBtnSelector);
         this.pageListElement = this.renderedView.querySelector(CarouselView.jsPageListSelector);
+        this.carouselImage = this.renderedView.querySelector(CarouselView.jsCarouselImg);
     }
 
     _bindNextBtnEvent() {

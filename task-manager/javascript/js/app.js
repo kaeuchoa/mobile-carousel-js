@@ -4,32 +4,38 @@ import CPModel from './carousel/CarouselPageModel.js';
 import PagingController from './paging/PagingController.js';
 import HttpService from './services/HttpService.js';
 import AmiiboService from './services/amiibo-service/AmiiboService.js';
-
-// TODO: Create a state class to make it observable, then I'm gonna update the view based on subscription on state
+import State from './State.js';
 
 class App {
     constructor() {
         this.mainMockFrame = document.getElementById('main-mock-frame');
         this.amiiboService = new AmiiboService(new HttpService());
-        this.pageList = [];
+        this.state = new State();
+        this.state.set('pageList', []);
+        this.state.set('currentPageIndex', 0);
         this.amiiboService.getList().then(list => {
-            console.log('returned');
+            const cpModelList = [];
             for (let i = 0; i < 3; i++) {
                 let item = list.amiibo[i];
-                this.pageList.push(new CPModel(item.character, item.name, item.image));
+                cpModelList.push(new CPModel(item.character, item.name, item.image));
             }
-            this.pagingController = new PagingController(this.pageList);
-            this.carouselController = new CarouselController(this.pageList, this.pagingController);
-
-            this.carouselController.subscribe(data => this._updateCurrentCarouselState(data));
-            this.carouselController.subscribe(data => this._updatePaging(data));
+            this.state.set('pageList', cpModelList);
         });
 
+        this.pagingController = new PagingController(this.state.get('pageList'));
+        this.carouselController = new CarouselController(this.state.get('pageList'), this.pagingController);
+
+        this.state.subscribe(data => {
+            if (data.hasOwnProperty('pageList')) {
+                const renderedCarousel = this.carouselController.renderView(data['pageList']);
+                this._updateMainMockFrame(renderedCarousel);
+            }
+        });
 
         // simple state just for the sake of having one global state
-        window.state = {
-            currentCarouselScreen: 0
-        };
+        // window.state = {
+        //     currentCarouselScreen: 0
+        // };
     }
 
     _updateCurrentCarouselState(eventData) {
@@ -71,16 +77,18 @@ class App {
         }
     }
 
+    _updateMainMockFrame(renderedCarousel) {
+        this.mainMockFrame.innerHTML = '';
+        this.mainMockFrame.appendChild(renderedCarousel);
+    }
+
     run() {
-        setTimeout(() => {
-            console.log('render');
-            const renderedCarousel = this.carouselController.renderView();
-            if (renderedCarousel) {
-                this.mainMockFrame.appendChild(renderedCarousel);
-            } else {
-                throw new Error('The view was not rendered correctly');
-            }
-        }, 3000);
+        const renderedCarousel = this.carouselController.renderView(this.state.get('pageList'));
+        if (renderedCarousel) {
+            this.mainMockFrame.appendChild(renderedCarousel);
+        } else {
+            throw new Error('The view was not rendered correctly');
+        }
     }
 }
 
