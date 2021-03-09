@@ -6,7 +6,7 @@ import Misc from '../misc.js';
 class CarouselController {
     constructor(pageList, pagingController) {
         this.pagingController = pagingController;
-        this.view = new CarouselView(this.pagingController.renderView(), pageList);
+        this.view = new CarouselView(this.pagingController.renderView(pageList), pageList);
         this.pageListCount = pageList.length - 1;
         this.renderedView = null;
         this.nextBtn = null;
@@ -28,12 +28,9 @@ class CarouselController {
         this.observers.forEach(observer => observer(data));
     }
 
-    renderView(pageList) {
+    renderView(pageList, renderedPaging) {
         if (this.view) {
-            // if (pageList !== 'undefined') {
-            //     console.log(pageList);
-            // }
-            this.renderedView = this.view.renderElement(pageList);
+            this.renderedView = this.view.renderElement(pageList, renderedPaging);
             if (this.renderedView) {
                 this._queryElements();
                 this._bindPreviousBtnEvent();

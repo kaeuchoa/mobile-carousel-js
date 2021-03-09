@@ -4,17 +4,19 @@ class PagingView {
         this.stepsNumber = stepsNumber;
     }
 
-    renderElement () {
-        if (this.stepsNumber > 0) {
-            const containerElement = document.createElement('div');
-            containerElement.innerHTML = `
-            <div class="paging js-paging">
-                ${this._renderSteps()}
-            </div>
-            `;
-            return containerElement.firstElementChild;
+    renderElement (stepsNumber) {
+        const hasSteps = typeof stepsNumber !== 'undefined' && stepsNumber > 0;
+        const loadindClass = !hasSteps ? 'paging--loading' : '';
+        if (hasSteps) {
+            this.stepsNumber = stepsNumber;
         }
-        return null;
+        const containerElement = document.createElement('div');
+        containerElement.innerHTML = `
+        <div class="paging js-paging ${loadindClass}">
+            ${this._renderSteps()}
+        </div>
+        `;
+        return containerElement.firstElementChild;
     }
 
     _renderSteps() {

@@ -9,8 +9,8 @@ class PagingController {
         this.pagingSteps = [];
     }
 
-    renderView() {
-        this.renderedView = this.view.renderElement();
+    renderView(pageList) {
+        this.renderedView = this.view.renderElement(pageList.length);
         if (this.renderedView) {
             this.paging = this.renderedView.querySelector(PagingView.jsPagingSelector);
             this.pagingSteps = Array.from(this.renderedView.querySelectorAll(PagingView.jsPagingStepSelector));

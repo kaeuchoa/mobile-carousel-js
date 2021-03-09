@@ -6,7 +6,6 @@ function State() {
     }
 
     this.set = function(property, value) {
-        // make it immutable
         const mutableState = {...this.obj};
         mutableState[property] = value;
         this.obj = {...mutableState};

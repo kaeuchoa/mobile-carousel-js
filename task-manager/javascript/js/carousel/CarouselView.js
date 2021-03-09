@@ -7,12 +7,18 @@ class CarouselView {
         this.pageList = carouselPageModelList;
     }
 
-    renderElement(pageList) {
+    renderElement(pageList, renderedPaging) {
         const isPageListSet = pageList.length !== 0;
+        const isPagingRendered = typeof renderedPaging !== 'undefined';
         const loadingClass = !isPageListSet ? 'carousel--loading' : '';
         if (isPageListSet) {
             this.pageList = pageList;
         }
+        if (isPagingRendered) {
+            this.renderedPaging = renderedPaging;
+        }
+
+
         const containerElement = document.createElement('div');
         containerElement.innerHTML = `
         <section class="carousel ${loadingClass}">
@@ -30,7 +36,7 @@ class CarouselView {
                 </div>
             </div>
         </section>`;
-        // this._appendRenderedPaging(containerElement);
+        this._appendRenderedPaging(containerElement);
         return containerElement.firstElementChild;
     }
 
