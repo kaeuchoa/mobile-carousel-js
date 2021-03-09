@@ -8,6 +8,7 @@ class CarouselView {
     }
 
     renderElement(pageList, renderedPaging) {
+        // does this belong here?
         const isPageListSet = pageList.length !== 0;
         const isPagingRendered = typeof renderedPaging !== 'undefined';
         const loadingClass = !isPageListSet ? 'carousel--loading' : '';

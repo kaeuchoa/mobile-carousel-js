@@ -19,6 +19,10 @@ class Misc {
 
         button.appendChild(circle);
     }
+
+    static constants = {
+        MAX_RESULTS: 5
+    }
 }
 
 export default Misc;

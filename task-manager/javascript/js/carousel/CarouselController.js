@@ -70,22 +70,22 @@ class CarouselController {
     _loadPreviousPage() {
         if (this.pageListElement) {
             this._notify({ event: CarouselController.actions.PREVIOUS_BTN });
-            const previousElement = this.pageListElement.children[window.state.currentCarouselScreen];
-            if (previousElement) {
-                previousElement.focus();
-            }
-            this._toggleBtns();
+            // const previousElement = this.pageListElement.children[window.state.currentCarouselScreen];
+            // if (previousElement) {
+            //     previousElement.focus();
+            // }
+            // this._toggleBtns();
         }
     }
 
     _loadNextPage() {
         if (this.pageListElement) {
             this._notify({ event: CarouselController.actions.NEXT_BTN });
-            const nextElement = this.pageListElement.children[window.state.currentCarouselScreen];
-            if (nextElement) {
-                nextElement.focus();
-            }
-            this._toggleBtns();
+            // const nextElement = this.pageListElement.children[window.state.currentCarouselScreen];
+            // if (nextElement) {
+            //     nextElement.focus();
+            // }
+            // this._toggleBtns();
         }
     }
 
