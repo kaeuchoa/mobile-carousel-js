@@ -8,12 +8,14 @@ class CarouselView {
     }
 
     renderElement(pageList) {
-        if (pageList !== 'undefined') {
+        const isPageListSet = pageList.length !== 0;
+        const loadingClass = !isPageListSet ? 'carousel--loading' : '';
+        if (isPageListSet) {
             this.pageList = pageList;
         }
         const containerElement = document.createElement('div');
         containerElement.innerHTML = `
-        <section class="carousel">
+        <section class="carousel ${loadingClass}">
             <div class="carousel__img">
                 <img src="" class="js-carousel-img"/>
             </div>
@@ -40,9 +42,12 @@ class CarouselView {
                 <p class="carousel__text"> ${listItem.text}</p>
             </li>
             `).join('');
-        } else {
-            // todo: loading state
-        }
+        } 
+        return `
+            <li class="carousel__item" id="" tabindex="-1">
+                <h1 class="carousel__title"></h1>
+                <p class="carousel__text"></p>
+            </li>`;
     }
 
     _appendRenderedPaging(containerElement) {

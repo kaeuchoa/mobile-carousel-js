@@ -59,3 +59,10 @@
         opacity: 0;
     }
 }
+
+@keyframes holder-loading {
+  
+    to {
+        background-position: 1000px 0;
+    }
+}

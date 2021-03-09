@@ -13,14 +13,14 @@ class App {
         this.state = new State();
         this.state.set('pageList', []);
         this.state.set('currentPageIndex', 0);
-        this.amiiboService.getList().then(list => {
-            const cpModelList = [];
-            for (let i = 0; i < 3; i++) {
-                let item = list.amiibo[i];
-                cpModelList.push(new CPModel(item.character, item.name, item.image));
-            }
-            this.state.set('pageList', cpModelList);
-        });
+        // this.amiiboService.getList().then(list => {
+        //     const cpModelList = [];
+        //     for (let i = 0; i < 3; i++) {
+        //         let item = list.amiibo[i];
+        //         cpModelList.push(new CPModel(item.character, item.name, item.image));
+        //     }
+        //     this.state.set('pageList', cpModelList);
+        // });
 
         this.pagingController = new PagingController(this.state.get('pageList'));
         this.carouselController = new CarouselController(this.state.get('pageList'), this.pagingController);
