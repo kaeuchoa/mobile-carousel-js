@@ -2,6 +2,7 @@
 
 import CarouselView from './CarouselView.js';
 import Misc from '../misc.js';
+import State from '../State.js';
 
 class CarouselController {
     constructor(pageList, pagingController) {
@@ -14,6 +15,7 @@ class CarouselController {
         this.pageListElement = null;
         this.carouselImage = null;
         this.observers = [];
+        this.state = new State();
     }
 
     subscribe(f) {
@@ -51,7 +53,10 @@ class CarouselController {
 
     _bindNextBtnEvent() {
         if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', () => this._loadNextPage());
+            this.nextBtn.addEventListener('click', () => {
+                this._triggerNextEvent();
+                this._updateCarousel();
+            });
             this.nextBtn.addEventListener('click', (e) => Misc.createRipple(e));
         } else {
             throw new Error('Next button is not rendered.');
@@ -60,32 +65,33 @@ class CarouselController {
 
     _bindPreviousBtnEvent() {
         if (this.previousBtn) {
-            this.previousBtn.addEventListener('click', () => this._loadPreviousPage());
+            this.previousBtn.addEventListener('click', () => {
+                this._triggerPreviousEvent();
+                this._updateCarousel();
+            });
             this.previousBtn.addEventListener('click', (e) => Misc.createRipple(e));
         } else {
             throw new Error('Previous button is not rendered.');
         }
     }
 
-    _loadPreviousPage() {
-        if (this.pageListElement) {
-            this._notify({ event: CarouselController.actions.PREVIOUS_BTN });
-            // const previousElement = this.pageListElement.children[window.state.currentCarouselScreen];
-            // if (previousElement) {
-            //     previousElement.focus();
-            // }
-            // this._toggleBtns();
-        }
+    _triggerPreviousEvent() {
+        this._notify({ event: CarouselController.actions.PREVIOUS_BTN });
     }
 
-    _loadNextPage() {
-        if (this.pageListElement) {
-            this._notify({ event: CarouselController.actions.NEXT_BTN });
-            // const nextElement = this.pageListElement.children[window.state.currentCarouselScreen];
-            // if (nextElement) {
-            //     nextElement.focus();
-            // }
-            // this._toggleBtns();
+    _triggerNextEvent() {
+        this._notify({ event: CarouselController.actions.NEXT_BTN });
+    }
+
+    _updateCarousel() {
+        const pageList = this.state.get('pageList'),
+            currentPageIndex = this.state.get('currentPageIndex');
+        if (pageList && currentPageIndex) {
+            const currentElement = this.pageListElement.children[currentPageIndex];
+            if (currentElement) {
+                currentElement.focus();
+            }
+            this._toggleBtns();
         }
     }
 

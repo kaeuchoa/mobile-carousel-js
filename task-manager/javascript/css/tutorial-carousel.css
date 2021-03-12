@@ -2,19 +2,19 @@
     width: 100%;
     height: 100%;
     color: #333;
-    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .carousel__img {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background: brown;
+    justify-content: center;
+    display: flex;
+    flex-grow: 1;
+    min-height: 55%;
 }
 
 .carousel__content {
-    max-height: 50%;
+    height: 45%;
     width: 100%;
     box-sizing: border-box;
     flex-grow: 1;
@@ -26,7 +26,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
     bottom: 0;
     overflow: hidden;
 }
@@ -140,4 +139,13 @@
 
 .carousel--loading .carousel__btn {
     background: #eee;
+    box-shadow: none;
+}
+
+.carousel--loading .loader {
+    display: block;
+}
+
+.carousel--loading .carousel__img img {
+    display: none;
 }

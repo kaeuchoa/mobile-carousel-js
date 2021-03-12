@@ -1,10 +1,13 @@
 'use strict'
 
+import State from "../State.js";
+
 class CarouselView {
 
     constructor(renderedPaging, carouselPageModelList) {
         this.renderedPaging = renderedPaging;
         this.pageList = carouselPageModelList;
+        this.state = new State();
     }
 
     renderElement(pageList, renderedPaging) {
@@ -19,12 +22,15 @@ class CarouselView {
             this.renderedPaging = renderedPaging;
         }
 
+        const currentPageIndex = this.state.get('currentPageIndex');
+        const currentItem = this.state.get('pageList')[currentPageIndex];
 
         const containerElement = document.createElement('div');
         containerElement.innerHTML = `
         <section class="carousel ${loadingClass}">
             <div class="carousel__img">
-                <img src="" class="js-carousel-img"/>
+                <span class="loader"></span>
+                <img src="${isPageListSet ? currentItem.imgSrc : ''}" class="js-carousel-img"/>
             </div>
             <div class="carousel__content">
                 <span id="paging-placeholder"></span>
