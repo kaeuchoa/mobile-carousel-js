@@ -10,7 +10,8 @@
     justify-content: center;
     display: flex;
     flex-grow: 1;
-    min-height: 55%;
+    height: 55%;
+    padding: 10px;
 }
 
 .carousel__content {

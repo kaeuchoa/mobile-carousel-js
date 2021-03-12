@@ -18,14 +18,21 @@ class App {
         this.carouselController = new CarouselController(this.state.get(Constants.STATE_PAGE_LIST), this.pagingController);
 
         this.state.subscribe(data => {
-            if (data.hasOwnProperty(Constants.STATE_PAGE_LIST) && data.hasOwnProperty(Constants.STATE_PAGE_INDEX)) {
+            if (this._stateContainsRightData(data)) {
                 const renderedPaging = this.pagingController.renderView(data[Constants.STATE_PAGE_LIST])
                 const renderedCarousel = this.carouselController.renderView(data[Constants.STATE_PAGE_LIST], renderedPaging);
+                this.pagingController.updatePagingView();
                 this._updateView(renderedCarousel);
             }
         });
 
-        this.carouselController.subscribe(data => this._updateCurrentCarouselState(data));
+        this.carouselController.subscribe(data => {
+            this._updateCurrentCarouselState(data);
+        });
+    }
+
+    _stateContainsRightData(data) {
+        return data.hasOwnProperty(Constants.STATE_PAGE_LIST) && data.hasOwnProperty(Constants.STATE_PAGE_INDEX);
     }
 
     _setInitialState() {
@@ -57,14 +64,6 @@ class App {
                     break;
 
             }
-        }
-    }
-
-    _updatePaging(eventData) {
-        // state increase and decrease happens before, so I just need to update 
-        // the paging view based on the current state number
-        if (eventData) {
-            this.pagingController.updatePagingView();
         }
     }
 
