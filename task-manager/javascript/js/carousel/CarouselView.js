@@ -1,6 +1,6 @@
 'use strict'
 
-import Misc from "../misc.js";
+import { Constants } from "../misc.js";
 import State from "../State.js";
 
 class CarouselView {
@@ -23,8 +23,8 @@ class CarouselView {
             this.renderedPaging = renderedPaging;
         }
 
-        const currentPageIndex = this.state.get('currentPageIndex');
-        const currentItem = this.state.get(Misc.constants.STATE_PAGE_LIST)[currentPageIndex];
+        const currentPageIndex = this.state.get(Constants.STATE_PAGE_INDEX);
+        const currentItem = this.state.get(Constants.STATE_PAGE_LIST)[currentPageIndex];
 
         const containerElement = document.createElement('div');
         containerElement.innerHTML = `
@@ -56,7 +56,7 @@ class CarouselView {
                 <p class="carousel__text"> ${listItem.text}</p>
             </li>
             `).join('');
-        } 
+        }
         return `
             <li class="carousel__item" id="" tabindex="-1">
                 <h1 class="carousel__title"></h1>
@@ -70,7 +70,7 @@ class CarouselView {
         placeholder.replaceWith(placeholder.firstElementChild);
     }
 
-    _getItemId(listItem){
+    _getItemId(listItem) {
         return listItem.text.toLowerCase().trim() + "__" + new Date().getTime();
     }
 }

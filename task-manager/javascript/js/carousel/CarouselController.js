@@ -1,7 +1,7 @@
 'use strict';
 
 import CarouselView from './CarouselView.js';
-import Misc from '../misc.js';
+import { Constants, createRipple } from '../misc.js';
 import State from '../State.js';
 
 class CarouselController {
@@ -57,7 +57,7 @@ class CarouselController {
                 this._triggerNextEvent();
                 this._updateCarousel();
             });
-            this.nextBtn.addEventListener('click', (e) => Misc.createRipple(e));
+            this.nextBtn.addEventListener('click', (e) => createRipple(e));
         } else {
             throw new Error('Next button is not rendered.');
         }
@@ -69,7 +69,7 @@ class CarouselController {
                 this._triggerPreviousEvent();
                 this._updateCarousel();
             });
-            this.previousBtn.addEventListener('click', (e) => Misc.createRipple(e));
+            this.previousBtn.addEventListener('click', (e) => createRipple(e));
         } else {
             throw new Error('Previous button is not rendered.');
         }
@@ -84,8 +84,8 @@ class CarouselController {
     }
 
     _updateCarousel() {
-        const pageList = this.state.get(Misc.constants.STATE_PAGE_LIST),
-            currentPageIndex = this.state.get('currentPageIndex');
+        const pageList = this.state.get(Constants.STATE_PAGE_LIST),
+            currentPageIndex = this.state.get(Constants.STATE_PAGE_INDEX);
         if (pageList && currentPageIndex) {
             const currentElement = this.pageListElement.children[currentPageIndex];
             if (currentElement) {
