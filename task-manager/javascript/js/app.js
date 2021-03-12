@@ -14,14 +14,13 @@ class App {
         this._setInitialState();
         this._loadData();
 
-        this.pagingController = new PagingController(this.state.get('pageList'));
-        this.carouselController = new CarouselController(this.state.get('pageList'), this.pagingController);
+        this.pagingController = new PagingController(this.state.get(Misc.constants.STATE_PAGE_LIST));
+        this.carouselController = new CarouselController(this.state.get(Misc.constants.STATE_PAGE_LIST), this.pagingController);
 
         this.state.subscribe(data => {
-            console.log(data);
-            if (data.hasOwnProperty('pageList')) {
-                const renderedPaging = this.pagingController.renderView(data['pageList'])
-                const renderedCarousel = this.carouselController.renderView(data['pageList'], renderedPaging);
+            if (data.hasOwnProperty(Misc.constants.STATE_PAGE_LIST) && data.hasOwnProperty('currentPageIndex') ) {
+                const renderedPaging = this.pagingController.renderView(data[Misc.constants.STATE_PAGE_LIST])
+                const renderedCarousel = this.carouselController.renderView(data[Misc.constants.STATE_PAGE_LIST], renderedPaging);
                 this._updateView(renderedCarousel);
             }
         });
@@ -31,7 +30,7 @@ class App {
 
     _setInitialState() {
         this.state = new State();
-        this.state.set('pageList', []);
+        this.state.set(Misc.constants.STATE_PAGE_LIST, []);
         this.state.set('currentPageIndex', 0);
     }
 
@@ -42,7 +41,7 @@ class App {
                 let item = list.amiibo[i];
                 cpModelList.push(new CPModel(item.character, item.name, item.image));
             }
-            this.state.set('pageList', cpModelList);
+            this.state.set(Misc.constants.STATE_PAGE_LIST, cpModelList);
         });
     }
 
@@ -71,7 +70,7 @@ class App {
 
     _increaseCurrentPageIndexState() {
         let currentPageIndex = this.state.get('currentPageIndex');
-        let pageListCount = this.state.get('pageList').length - 1;
+        let pageListCount = this.state.get(Misc.constants.STATE_PAGE_LIST).length - 1;
         if (currentPageIndex < pageListCount) {
             currentPageIndex++;
             this.state.set('currentPageIndex', currentPageIndex);
@@ -92,7 +91,7 @@ class App {
     }
 
     run() {
-        const renderedCarousel = this.carouselController.renderView(this.state.get('pageList'));
+        const renderedCarousel = this.carouselController.renderView(this.state.get(Misc.constants.STATE_PAGE_LIST));
         if (renderedCarousel) {
             this._updateView(renderedCarousel);
         } else {

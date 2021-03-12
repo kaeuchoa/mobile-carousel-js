@@ -84,7 +84,7 @@ class CarouselController {
     }
 
     _updateCarousel() {
-        const pageList = this.state.get('pageList'),
+        const pageList = this.state.get(Misc.constants.STATE_PAGE_LIST),
             currentPageIndex = this.state.get('currentPageIndex');
         if (pageList && currentPageIndex) {
             const currentElement = this.pageListElement.children[currentPageIndex];

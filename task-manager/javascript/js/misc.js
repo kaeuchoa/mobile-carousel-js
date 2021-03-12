@@ -21,7 +21,9 @@ class Misc {
     }
 
     static constants = {
-        MAX_RESULTS: 5
+        MAX_RESULTS: 5,
+        STATE_PAGE_INDEX: 'currentPageIndex',
+        STATE_PAGE_LIST: 'pageList'
     }
 }
 

@@ -1,5 +1,6 @@
 'use strict'
 
+import Misc from "../misc.js";
 import State from "../State.js";
 
 class CarouselView {
@@ -23,7 +24,7 @@ class CarouselView {
         }
 
         const currentPageIndex = this.state.get('currentPageIndex');
-        const currentItem = this.state.get('pageList')[currentPageIndex];
+        const currentItem = this.state.get(Misc.constants.STATE_PAGE_LIST)[currentPageIndex];
 
         const containerElement = document.createElement('div');
         containerElement.innerHTML = `
