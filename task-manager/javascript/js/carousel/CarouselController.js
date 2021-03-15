@@ -51,10 +51,7 @@ class CarouselController {
 
     renderView(renderedPaging) {
         const pageList = this._getCurrentPageList();
-        if (pageList.length > 0) {
-            this.isLoading = false;
-        }
-        if (this.view && !this.renderedView) {
+        if (this.view && !this.renderedView) { // first run
             this.renderedView = this.view.renderCarousel(this.isLoading, pageList, renderedPaging);
             this._init();
         } else if (this.view && this.renderedView) {

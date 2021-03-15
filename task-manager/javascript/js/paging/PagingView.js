@@ -1,36 +1,38 @@
 class PagingView {
 
-    renderElement (stepsNumber) {
-        const hasSteps = typeof stepsNumber !== 'undefined' && stepsNumber > 0;
-        const loadindClass = !hasSteps ? 'paging--loading' : '';
-        if (hasSteps) {
-            this.stepsNumber = stepsNumber;
-        }
+    renderElement (isLoading ,stepsNumber) {
+        const loadindClass = isLoading ? 'paging--loading' : '';
         const containerElement = document.createElement('div');
         containerElement.innerHTML = `
         <div class="paging js-paging ${loadindClass}">
-            ${this._renderSteps()}
         </div>
         `;
+        this._appendSteps(containerElement, this.renderSteps(stepsNumber));
         return containerElement.firstElementChild;
     }
 
-    _renderSteps() {
-        const steps = [];
-        for (let i = 0; i < this.stepsNumber; i++) {
-            if (i === 0) {
-                steps.push(`<span class="paging__step paging__step--active js-paging-step"></span>`);
-            } else {
-                steps.push(`<span class="paging__step js-paging-step"></span>`);
-            }
+    _appendSteps(containerElement, steps) {
+        if (typeof steps !== undefined) {
+            containerElement.append(steps);
         }
-        return steps.join('');
+    }
+
+    renderSteps(stepsNumber) {
+        const steps = [];
+        const containerElement = document.createElement('div');
+        for (let i = 0; i < stepsNumber; i++) {
+            steps.push(`<span class="paging__step js-paging-step"></span>`);
+        }
+        containerElement.innerHTML = steps.join('');
+        return containerElement.children;
     }
 
 }
 
 PagingView.jsPagingSelector = '.js-paging';
 PagingView.jsPagingStepSelector = '.js-paging-step';
+// look for and refactor into cssPagingStepActiveClass
 PagingView.pagingStepActiveClass = 'paging__step--active';
+PagingView.cssPagingLoadingClass = 'paging--loading';
 
 export default PagingView;
