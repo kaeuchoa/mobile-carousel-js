@@ -98,7 +98,7 @@ class CarouselController {
     _updateCarouselView(pageList) {
         if (this.pageListElement) {
             // pageList update
-            this.carouselElement.classList.toggle('carousel--loading', this.isLoading);
+            this.carouselElement.classList.toggle(CarouselView.cssLoadingClass, this.isLoading);
             this.pageListElement.innerHTML = '';
             this.pageListElement.append(...this.view.renderCarouselItems(pageList));
 

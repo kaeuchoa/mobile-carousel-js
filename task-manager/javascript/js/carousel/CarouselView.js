@@ -70,5 +70,7 @@ CarouselView.jsPreviousBtnSelector = '.js-previous-btn';
 CarouselView.jsNextBtnSelector = '.js-next-btn';
 CarouselView.jsPageListSelector = '.js-page-list';
 CarouselView.jsCarouselImg = '.js-carousel-img';
+CarouselView.cssLoadingClass = 'carousel--loading';
+
 
 export default CarouselView;
