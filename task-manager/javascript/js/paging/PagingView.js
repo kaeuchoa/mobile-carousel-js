@@ -1,9 +1,5 @@
 class PagingView {
 
-    constructor(stepsNumber) {
-        this.stepsNumber = stepsNumber;
-    }
-
     renderElement (stepsNumber) {
         const hasSteps = typeof stepsNumber !== 'undefined' && stepsNumber > 0;
         const loadindClass = !hasSteps ? 'paging--loading' : '';

@@ -7,6 +7,8 @@ import AmiiboService from './services/amiibo-service/AmiiboService.js';
 import State from './State.js';
 import { Constants } from './misc.js';
 
+// notes: Controllers will know and manage state
+
 class App {
     constructor() {
         this.mainMockFrame = document.getElementById('main-mock-frame');
@@ -14,25 +16,8 @@ class App {
         this._setInitialState();
         this._loadData();
 
-        this.pagingController = new PagingController(this.state.get(Constants.STATE_PAGE_LIST));
-        this.carouselController = new CarouselController(this.state.get(Constants.STATE_PAGE_LIST), this.pagingController);
-
-        this.state.subscribe(data => {
-            if (this._stateContainsRightData(data)) {
-                const renderedPaging = this.pagingController.renderView(data[Constants.STATE_PAGE_LIST])
-                const renderedCarousel = this.carouselController.renderView(data[Constants.STATE_PAGE_LIST], renderedPaging);
-                this.pagingController.updatePagingView();
-                this._updateView(renderedCarousel);
-            }
-        });
-
-        this.carouselController.subscribe(data => {
-            this._updateCurrentCarouselState(data);
-        });
-    }
-
-    _stateContainsRightData(data) {
-        return data.hasOwnProperty(Constants.STATE_PAGE_LIST) && data.hasOwnProperty(Constants.STATE_PAGE_INDEX);
+        this.pagingController = new PagingController();
+        this.carouselController = new CarouselController();
     }
 
     _setInitialState() {
@@ -52,45 +37,14 @@ class App {
         });
     }
 
-    _updateCurrentCarouselState(eventData) {
-        if (eventData) {
-            // check filipe deschamps' obj method to reduce ifs/switchs
-            switch (eventData.event) {
-                case CarouselController.actions.PREVIOUS_BTN:
-                    this._decreaseCurrentPageIndexState();
-                    break;
-                case CarouselController.actions.NEXT_BTN:
-                    this._increaseCurrentPageIndexState();
-                    break;
-
-            }
-        }
-    }
-
-    _increaseCurrentPageIndexState() {
-        let currentPageIndex = this.state.get(Constants.STATE_PAGE_INDEX);
-        let pageListCount = this.state.get(Constants.STATE_PAGE_LIST).length - 1;
-        if (currentPageIndex < pageListCount) {
-            currentPageIndex++;
-            this.state.set(Constants.STATE_PAGE_INDEX, currentPageIndex);
-        }
-    }
-
-    _decreaseCurrentPageIndexState() {
-        let currentPageIndex = this.state.get(Constants.STATE_PAGE_INDEX);
-        if (currentPageIndex > 0) {
-            currentPageIndex--;
-            this.state.set(Constants.STATE_PAGE_INDEX, currentPageIndex);
-        }
-    }
-
     _updateView(newNode) {
         this.mainMockFrame.innerHTML = '';
         this.mainMockFrame.appendChild(newNode);
     }
 
     run() {
-        const renderedCarousel = this.carouselController.renderView(this.state.get(Constants.STATE_PAGE_LIST));
+        const renderedPaging = this.pagingController.renderView();
+        const renderedCarousel = this.carouselController.renderView(renderedPaging);
         if (renderedCarousel) {
             this._updateView(renderedCarousel);
         } else {

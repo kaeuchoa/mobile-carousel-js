@@ -4,44 +4,63 @@ import CarouselView from './CarouselView.js';
 import { Constants, createRipple } from '../misc.js';
 import State from '../State.js';
 
+// notes: Controllers will know and manage state
+
 class CarouselController {
-    constructor(pageList, pagingController) {
-        this.pagingController = pagingController;
-        this.view = new CarouselView(this.pagingController.renderView(pageList), pageList);
-        this.pageListCount = pageList.length - 1;
+    constructor() {
+        this.view = new CarouselView();
+
         this.renderedView = null;
         this.nextBtn = null;
         this.previousBtn = null;
         this.pageListElement = null;
         this.carouselImage = null;
-        this.observers = [];
+        this.carouselElement = null;
+
+        // maybe add this to state?
+        this.isLoading = true;
         this.state = new State();
-    }
 
-    subscribe(f) {
-        this.observers.push(f);
-    }
-
-    unsubscribe(f) {
-        this.observers = this.observers.filter(subscriber => subscriber !== f);
-    }
-
-    _notify(data) {
-        this.observers.forEach(observer => observer(data));
-    }
-
-    renderView(pageList, renderedPaging) {
-        if (this.view) {
-            this.renderedView = this.view.renderElement(pageList, renderedPaging);
-            if (this.renderedView) {
-                this._queryElements();
-                this._bindPreviousBtnEvent();
-                this._bindNextBtnEvent();
-                this._toggleBtns();
-                return this.renderedView;
+        this.state.subscribe(data => {
+            if (this._stateContainsRightData(data)) {
+                this.isLoading = false;
+                this.renderView();
             }
+        });
+    }
+
+    // extend?
+    _stateContainsRightData(data) {
+        return data.hasOwnProperty(Constants.STATE_PAGE_LIST) && data.hasOwnProperty(Constants.STATE_PAGE_INDEX);
+    }
+
+    _getCurrentPageList() {
+        return this.state.get(Constants.STATE_PAGE_LIST);
+    }
+
+    _getCurrentPageIndex() {
+        return this.state.get(Constants.STATE_PAGE_INDEX);
+    }
+
+    _init() {
+        this._queryElements();
+        this._bindNextBtnEvent();
+        this._bindPreviousBtnEvent();
+        this._toggleBtns();
+    }
+
+    renderView(renderedPaging) {
+        const pageList = this._getCurrentPageList();
+        if (pageList.length > 0) {
+            this.isLoading = false;
         }
-        return null;
+        if (this.view && !this.renderedView) {
+            this.renderedView = this.view.renderCarousel(this.isLoading, pageList, renderedPaging);
+            this._init();
+        } else if (this.view && this.renderedView) {
+            this._updateCarouselView(pageList);
+        }
+        return this.renderedView;
     }
 
     _queryElements() {
@@ -49,13 +68,14 @@ class CarouselController {
         this.nextBtn = this.renderedView.querySelector(CarouselView.jsNextBtnSelector);
         this.pageListElement = this.renderedView.querySelector(CarouselView.jsPageListSelector);
         this.carouselImage = this.renderedView.querySelector(CarouselView.jsCarouselImg);
+        this.carouselElement = this.renderedView;
     }
 
     _bindNextBtnEvent() {
         if (this.nextBtn) {
             this.nextBtn.addEventListener('click', () => {
-                this._triggerNextEvent();
-                this._updateCarousel();
+                this._increaseCurrentPageIndexState();
+                this._moveCarousel();
             });
             this.nextBtn.addEventListener('click', (e) => createRipple(e));
         } else {
@@ -66,8 +86,8 @@ class CarouselController {
     _bindPreviousBtnEvent() {
         if (this.previousBtn) {
             this.previousBtn.addEventListener('click', () => {
-                this._triggerPreviousEvent();
-                this._updateCarousel();
+                this._decreaseCurrentPageIndexState();
+                this._moveCarousel();
             });
             this.previousBtn.addEventListener('click', (e) => createRipple(e));
         } else {
@@ -75,18 +95,24 @@ class CarouselController {
         }
     }
 
-    _triggerPreviousEvent() {
-        this._notify({ event: CarouselController.actions.PREVIOUS_BTN });
+    _updateCarouselView(pageList) {
+        if (this.pageListElement) {
+            // pageList update
+            this.carouselElement.classList.toggle('carousel--loading', this.isLoading);
+            this.pageListElement.innerHTML = '';
+            this.pageListElement.append(...this.view.renderCarouselItems(pageList));
+
+            //update image
+            const currentPageIndex = this._getCurrentPageIndex();
+            const currentItem = pageList[currentPageIndex];
+            this.carouselImage.src = currentItem.imgSrc;
+        }
     }
 
-    _triggerNextEvent() {
-        this._notify({ event: CarouselController.actions.NEXT_BTN });
-    }
-
-    _updateCarousel() {
-        const pageList = this.state.get(Constants.STATE_PAGE_LIST),
-            currentPageIndex = this.state.get(Constants.STATE_PAGE_INDEX);
-        if (pageList && currentPageIndex) {
+    _moveCarousel() {
+        const pageList = this._getCurrentPageList(),
+            currentPageIndex = this._getCurrentPageIndex();
+        if (pageList && currentPageIndex >= 0) {
             const currentElement = this.pageListElement.children[currentPageIndex];
             if (currentElement) {
                 currentElement.focus();
@@ -95,16 +121,34 @@ class CarouselController {
         }
     }
 
-    _toggleBtns() {
-        if (window.state) {
-            if (window.state.currentCarouselScreen === 0) {
-                this._disablePreviousBtn();
-            } else if (window.state.currentCarouselScreen > 0 && window.state.currentCarouselScreen < this.pageListCount) {
-                this._enableAllBtns();
-            } else if (window.state.currentCarouselScreen === this.pageListCount) {
-                this._disableNextBtn();
-            }
+    _increaseCurrentPageIndexState() {
+        let currentPageIndex = this._getCurrentPageIndex();
+        let pageListCount = this._getCurrentPageList().length - 1;
+        if (currentPageIndex < pageListCount) {
+            currentPageIndex++;
+            this.state.set(Constants.STATE_PAGE_INDEX, currentPageIndex);
         }
+    }
+
+    _decreaseCurrentPageIndexState() {
+        let currentPageIndex = this._getCurrentPageIndex();
+        if (currentPageIndex > 0) {
+            currentPageIndex--;
+            this.state.set(Constants.STATE_PAGE_INDEX, currentPageIndex);
+        }
+    }
+
+    _toggleBtns() {
+        const currentPageIndex = this._getCurrentPageIndex();
+        const pageListCount = this._getCurrentPageList().length - 1;
+        if (currentPageIndex === 0) {
+            this._disablePreviousBtn();
+        } else if (currentPageIndex > 0 && currentPageIndex < pageListCount) {
+            this._enableAllBtns();
+        } else if (currentPageIndex === pageListCount) {
+            this._disableNextBtn();
+        }
+
     }
 
     _enableAllBtns() {

@@ -8,12 +8,15 @@ class PagingController {
         this.paging = null;
         this.pagingSteps = [];
         this.state = new State();
-        const stepsNumber = this.state.get(Constants.STATE_PAGE_LIST).length;
-        this.view = new PagingView(stepsNumber);
+        this.view = new PagingView();
+    }
+
+    _getStepsNumber(){
+        return this.state.get(Constants.STATE_PAGE_LIST).length;
     }
 
     renderView() {
-        const stepsNumber = this.state.get(Constants.STATE_PAGE_LIST).length;
+        const stepsNumber = this._getStepsNumber();
         this.renderedView = this.view.renderElement(stepsNumber);
         if (this.renderedView) {
             this.paging = this.renderedView.querySelector(PagingView.jsPagingSelector);
