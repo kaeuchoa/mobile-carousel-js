@@ -3,11 +3,13 @@
 import CarouselView from './CarouselView.js';
 import { Constants, createRipple } from '../misc.js';
 import State from '../State.js';
+import StatefulController from '../StatefulController.js';
 
 // notes: Controllers will know and manage state
 
-class CarouselController {
+class CarouselController extends StatefulController {
     constructor() {
+        super();
         this.view = new CarouselView();
 
         this.renderedView = null;
@@ -19,7 +21,6 @@ class CarouselController {
 
         // maybe add this to state?
         this.isLoading = true;
-        this.state = new State();
 
         this.state.subscribe(data => {
             if (this._stateContainsRightData(data)) {
@@ -27,19 +28,6 @@ class CarouselController {
                 this.renderView();
             }
         });
-    }
-
-    // extend?
-    _stateContainsRightData(data) {
-        return data.hasOwnProperty(Constants.STATE_PAGE_LIST) && data.hasOwnProperty(Constants.STATE_PAGE_INDEX);
-    }
-
-    _getCurrentPageList() {
-        return this.state.get(Constants.STATE_PAGE_LIST);
-    }
-
-    _getCurrentPageIndex() {
-        return this.state.get(Constants.STATE_PAGE_INDEX);
     }
 
     _init() {

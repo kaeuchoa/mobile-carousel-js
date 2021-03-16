@@ -1,13 +1,13 @@
 import State from '../State.js';
 import { Constants } from '../misc.js';
 import PagingView from './PagingView.js';
+import StatefulController from '../StatefulController.js';
 
-class PagingController {
+class PagingController extends StatefulController {
     constructor() {
+        super();
         this.renderedView = null;
         this.paging = null;
-
-        this.state = new State();
         this.view = new PagingView();
 
         this.isLoading = true;
@@ -18,19 +18,6 @@ class PagingController {
                 this.renderView();
             }
         });
-    }
-
-    // extend?
-    _stateContainsRightData(data) {
-        return data.hasOwnProperty(Constants.STATE_PAGE_LIST) && data.hasOwnProperty(Constants.STATE_PAGE_INDEX);
-    }
-
-    _getCurrentPageList() {
-        return this.state.get(Constants.STATE_PAGE_LIST);
-    }
-
-    _getCurrentPageIndex() {
-        return this.state.get(Constants.STATE_PAGE_INDEX);
     }
 
     _getStepsNumber() {
@@ -76,7 +63,6 @@ class PagingController {
                 }
                 stepElement.classList.remove(PagingView.pagingStepActiveClass);
             });
-
         }
     }
 }
