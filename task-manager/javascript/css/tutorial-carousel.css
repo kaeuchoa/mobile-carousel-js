@@ -7,11 +7,16 @@
 }
 
 .carousel__img {
-    justify-content: center;
     display: flex;
     flex-grow: 1;
     height: 54%;
     padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.carousel__img img {
+    max-width: 100%;
+    max-height: 90%;
 }
 
 .carousel__content {
