@@ -1,0 +1,34 @@
+.paging {
+    width: 100%;
+    display: flex;
+    place-content: center;
+}
+
+.paging__step {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    margin: 0 3px;
+    opacity: .3;
+    transition: width .3s ease-out;
+}
+
+.paging__step--active {
+    width: 30px;
+    opacity: 1;
+    border-radius: 5px;
+}
+
+.paging--loading {
+    width: 40px;
+    height: 10px;
+    background-color: #eee;
+
+    /* loading animation */
+    background-image: linear-gradient(90deg,#e4e4e4 0%,#f1f1f1 40%,#ededed 60%,#e4e4e4 100%);
+    background-position: 0px 0px;
+    background-repeat: repeat;
+    animation: holder-loading 10s ease-in-out infinite;
+
+}
