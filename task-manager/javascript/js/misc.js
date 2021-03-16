@@ -20,7 +20,11 @@ export const createRipple = function (event) {
 }
 
 export const Constants = {
-    MAX_RESULTS: 5,
+    MAX_RESULTS: 10,
     STATE_PAGE_INDEX: 'currentPageIndex',
     STATE_PAGE_LIST: 'pageList'
 }
+
+export const randomNumber = function(min, max) {  
+    return Math.floor(Math.random() * (max - min) + min); 
+} 

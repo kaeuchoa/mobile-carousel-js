@@ -2,10 +2,7 @@
 
 import CarouselView from './CarouselView.js';
 import { Constants, createRipple } from '../misc.js';
-import State from '../State.js';
 import StatefulController from '../StatefulController.js';
-
-// notes: Controllers will know and manage state
 
 class CarouselController extends StatefulController {
     constructor() {
@@ -133,7 +130,6 @@ class CarouselController extends StatefulController {
         } else if (currentPageIndex === pageListCount) {
             this._disableNextBtn();
         }
-
     }
 
     _enableAllBtns() {
@@ -164,4 +160,5 @@ CarouselController.actions = {
     NEXT_BTN: "action_next_btn",
     PREVIOUS_BTN: "action_previous_btn"
 }
+
 export default CarouselController;

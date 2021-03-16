@@ -1,13 +1,12 @@
 'use strict'
+
 import CarouselController from './carousel/CarouselController.js';
 import CPModel from './carousel/CarouselPageModel.js';
 import PagingController from './paging/PagingController.js';
 import HttpService from './services/HttpService.js';
 import AmiiboService from './services/amiibo-service/AmiiboService.js';
 import State from './State.js';
-import { Constants } from './misc.js';
-
-// notes: Controllers will know and manage state
+import { Constants, randomNumber } from './misc.js';
 
 class App {
     constructor() {
@@ -30,8 +29,8 @@ class App {
         this.amiiboService.getList().then(list => {
             const cpModelList = [];
             for (let i = 0; i < Constants.MAX_RESULTS; i++) {
-                let item = list.amiibo[i];
-                cpModelList.push(new CPModel(item.character, item.name, item.image));
+                let item = list.amiibo[randomNumber(0, list.amiibo.length)];
+                cpModelList.push(new CPModel(item.character, item.gameSeries, item.image));
             }
             this.state.set(Constants.STATE_PAGE_LIST, cpModelList);
         });
