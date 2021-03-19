@@ -1,13 +1,13 @@
-import './Paging.scss';
+import pagingStyles from './Paging.module.scss';
 
 function Paging() {
     return (
-        <div className='paging'>
-            <span className='paging__step paging__step--active'></span>
-            <span className='paging__step'></span>
-            <span className='paging__step'></span>
-            <span className='paging__step'></span>
-            <span className='paging__step'></span>
+        <div className={pagingStyles['paging']}>
+            <span className={pagingStyles['paging__step']}></span>
+            <span className={pagingStyles['paging__step']}></span>
+            <span className={pagingStyles['paging__step']}></span>
+            <span className={pagingStyles['paging__step']}></span>
+            <span className={pagingStyles['paging__step']}></span>
         </div>
     );
 }

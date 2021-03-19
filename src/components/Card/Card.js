@@ -1,10 +1,9 @@
-import Carousel from '../Carousel/Carousel';
-import './Card.scss';
+import cardStyles from './Card.module.scss';
 
-function Card() {
+function Card(props) {
     return (
-        <div className='mock-frame'>
-            <Carousel />
+        <div className={cardStyles['mock-frame']}>
+            {props.children}
         </div>
     );
 }
