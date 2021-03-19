@@ -1,0 +1,36 @@
+@import-normalize;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
+@import './scss/variables';
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $main-bg;
+}
+
+/*
+ * Ripple effect
+*/
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 600ms linear;
+    background-color: $primary-color;
+    opacity: 0.2;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes holder-loading {
+    to {
+        background-position: 1000px 0;
+    }
+}
